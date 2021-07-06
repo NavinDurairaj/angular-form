@@ -1,0 +1,111 @@
+<div class="container">
+    <form action="" [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+      <div class="div-pad">
+        <label for="fname">First Name:</label>
+        <input type="text" name="fname" id="fname" formControlName="firstName">
+        <span class="error-msg" *ngIf= "checkoutForm.get('firstName')?.hasError('required') && checkoutForm.get('firstName')?.touched">First Name required</span>
+        <span class="error-msg" *ngIf= "checkoutForm.get('firstName')?.hasError('pattern') && checkoutForm.get('firstName')?.touched">Numbers and special characters are not allowed</span>
+      </div>
+  
+      <div class="div-pad"> 
+        <label for="lname">Last Name:</label>
+        <input type="text" name="lname" id="lname" formControlName="lastName">
+        <span class="error-msg" *ngIf= "checkoutForm.get('lastName')?.hasError('required') && checkoutForm.get('lastName')?.touched">Last Name required</span>
+        <span class="error-msg" *ngIf= "checkoutForm.get('lastName')?.hasError('pattern') && checkoutForm.get('lastName')?.touched">Numbers and special characters are not allowed</span>
+      </div>
+  
+      <div class="div-pad">
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" formControlName="birthdate">
+        <span class="error-msg" *ngIf= "checkoutForm.get('birthdate')?.hasError('required') && checkoutForm.get('birthdate')?.touched">Select your birth date</span>
+      </div>
+  
+      <div class="div-pad">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" formControlName="email">
+        <span class="error-msg" *ngIf= "checkoutForm.get('email')?.hasError('required') && checkoutForm.get('email')?.touched">Email required</span>
+        <span class="error-msg" *ngIf= "checkoutForm.get('email')?.hasError('pattern') && checkoutForm.get('email')?.touched">Email format is wrong</span>
+      </div>
+  
+      <div class="div-pad">
+        <label for="pwd">Password:</label>
+        <input type="password" id="pwd" formControlName="password">
+        <span class="error-msg" *ngIf= "checkoutForm.get('password')?.hasError('required') && checkoutForm.get('password')?.touched">Password required</span>
+        <span class="error-msg" *ngIf= "checkoutForm.get('password')?.hasError('pattern') && checkoutForm.get('password')?.touched">Should at least have 1 capital, 1 number, 1 special character</span>
+      </div>
+  
+      <div class="div-pad">
+        <label for="confirmpwd">Confirm Password:</label>
+        <input type="password" id="confirmpwd" formControlName="confirmPassword">
+        <span class="error-msg" *ngIf= "checkoutForm.get('confirmPassword')?.hasError('required') && checkoutForm.get('confirmPassword')?.touched">Please enter and confirm your password</span>
+        <span class="error-msg" *ngIf= "checkoutForm.get('confirmPassword')?.hasError('mustMatch') && checkoutForm.get('confirmPassword')?.touched">Password must match</span>
+      </div>
+  
+      <div class="gender-sec div-pad">
+        <label for ="gendermain">Gender:</label>
+          <input type="radio" id="male" name="gender" value="male" formControlName="gender">
+          <label for="male">Male</label><br>
+          <input type="radio" id="female" name="gender" value="female" formControlName="gender">
+          <label for="female">Female</label><br>
+          <input type="radio" id="other" name="gender" value="other" formControlName="gender">
+          <label for="other">Other</label>
+      </div>
+        
+  
+      <div class="about-me">
+        <label for="abouttextarea">About me:</label>
+        <textarea id="abouttextarea" name="abouttextarea" rows="4" cols="50" formControlName="aboutme" [(ngModel)]="role" [maxlength]="maxChars"></textarea>
+        <span class="error-msg" *ngIf= "checkoutForm.get('aboutme')?.hasError('minlength') && checkoutForm.get('aboutme')?.touched">Should have atleast 10 characters</span>
+        <!-- <span class="error-msg" *ngIf= "checkoutForm.get('aboutme')?.hasError('maxlength') && checkoutForm.get('aboutme')?.touched">Only 200 characters allowed</span> -->
+      </div>
+      <p class="char-count">{{role.length}}/{{maxChars}}</p>
+  
+      <div class="known-lang-sec">
+        <label for="">Known languages:</label>
+          <div *ngFor="let data of Data; let i=index" class="lang-pad-right">
+              <input type="checkbox" [value]="data.value" (change)="onCheckboxChange($event)" formControlName="language">
+              {{data.name}}
+          </div>
+      </div>  
+  
+      <div class="about-me div-pad">
+        <label for="address1textarea">Address 1:</label>
+        <textarea id="address1textarea" name="address1textarea" rows="4" cols="50" formControlName="address1"></textarea>
+        <span class="error-msg" *ngIf= "checkoutForm.get('address1')?.hasError('required') && checkoutForm.get('address1')?.touched">Address is required</span>
+      </div>
+  
+      <div class="about-me div-pad">
+        <label for="address2textarea">Address 2:</label>
+        <textarea id="address2textarea" name="address2textarea" rows="4" cols="50" formControlName="address2"></textarea>
+      </div>
+  
+      <div class="div-pad">
+        <label for="country">Country:</label> 
+        <select id="country" [(ngModel)]="selectedCountry.id" (change)="onSelect(cascading.value)" #cascading formControlName="country">
+          <option value="">Select</option>
+          <option *ngFor="let country of countries" value= {{country.id}}>{{country.name}}</option>
+        </select>
+        <span class="error-msg" *ngIf= "checkoutForm.get('country')?.hasError('required') && checkoutForm.get('country')?.touched">Required</span>
+      </div>
+  
+      <div class="div-pad">
+        <label for="state">State:</label>
+        <select id="state" formControlName="state">
+          <option value="">Select</option>
+          <option *ngFor="let state of states" value= {{state.id}}>{{state.name}}</option>
+        </select>
+        <span class="error-msg" *ngIf= "checkoutForm.get('state')?.hasError('required') && checkoutForm.get('state')?.touched">Required</span>
+      </div>
+  
+      <div class="div-pad">
+        <label for="city">City:</label>
+        <input name="city" id="city" type="text" formControlName="city">
+        <span class="error-msg" *ngIf= "checkoutForm.get('city')?.hasError('required') && checkoutForm.get('city')?.touched">Required</span>
+      </div>
+  
+      <div class="div-pad">
+        <button type="submit" [disabled]="!checkoutForm.valid">Register</button>
+      </div>
+    </form>
+  
+  </div>
